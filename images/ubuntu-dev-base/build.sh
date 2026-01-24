@@ -88,7 +88,13 @@ curl --create-dirs -L \
 	-o /etc/bash_completion.d/docker-compose
 
 # Add kubectl
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+ARCH=$(uname -m)
+if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+	KUBECTL_ARCH="arm64"
+else
+	KUBECTL_ARCH="amd64"
+fi
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/${KUBECTL_ARCH}/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 
