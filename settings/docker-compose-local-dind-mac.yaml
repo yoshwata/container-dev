@@ -1,4 +1,3 @@
-version: '3'
 services:
   ubuntu-dev-base-local:
     image: yoshwata/ubuntu-dev-base-local:noble

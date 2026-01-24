@@ -34,7 +34,8 @@ install-tmux() {
 	popd
 	rm -rf "$tmux_src"
 	rm -rf "$tmux_tar"
-	sudo apt-get purge -y libevent-dev libncurses-dev
+	# Keep libevent-dev and libncurses-dev as they provide runtime libraries needed by tmux
+	# Alternatively, we could purge only the -dev packages and reinstall the runtime packages
 	popd
 }
 

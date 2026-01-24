@@ -138,7 +138,7 @@ sudo cp /tmp/git-open/git-open /usr/local/bin
 rm -rf /tmp/git-open
 
 # Required for so many languages this will simply be included by default.
-apt-install build-essential pkgconf
+apt-install build-essential pkgconf bison flex
 
 # Mail client for testing
 apt-install swaks
