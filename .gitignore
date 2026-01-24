@@ -8,5 +8,6 @@ known_hosts
 .DS_Store
 settings/.ssh/config
 settings/.env
+settings/.kube/
 .claude/
 .env
