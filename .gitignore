@@ -11,3 +11,4 @@ settings/.env
 settings/.kube/
 .claude/
 .env
+*.pem

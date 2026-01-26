@@ -29,6 +29,7 @@ services:
       # secret settings
       - ./.extra:/home/${USER}/.extra
       - ./.kube:/home/${USER}/.kube
+      - ./.bp:/home/${USER}/.bp
   power-tmux-local:
     build:
       context: ../images/power-tmux
