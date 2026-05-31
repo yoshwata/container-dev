@@ -1,12 +1,33 @@
 #!/usr/bin/env bash
 
 function share_history {
-    history -a
-    history -c
-    history -r
+    local rc=0
+
+    history -a || {
+        rc=$?
+        echo "[share_history] history -a failed (exit=$rc): $HOME/.bash_history" >&2
+    }
+
+    history -c || {
+        local err=$?
+        if [ "$rc" -eq 0 ]; then
+            rc=$err
+        fi
+        echo "[share_history] history -c failed (exit=$err)" >&2
+    }
+
+    history -r || {
+        local err=$?
+        if [ "$rc" -eq 0 ]; then
+            rc=$err
+        fi
+        echo "[share_history] history -r failed (exit=$err): $HOME/.bash_history (file type/permission?)" >&2
+    }
+
+    return "$rc"
 }
 # PROMPT_COMMAND='share_history'
-PROMPT_COMMAND="share_history; $PROMPT_COMMAND"
+PROMPT_COMMAND="share_history${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 # Disable histappend because this prompt appends everytime
 shopt -u histappend
 
