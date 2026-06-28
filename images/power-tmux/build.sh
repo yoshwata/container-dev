@@ -27,7 +27,7 @@ install-tmux() {
 		libevent_version=2.1-7t64
 	fi
 	echo "Using libevent version: $libevent_version"
-	apt-install "libevent-$libevent_version" libevent-dev libncurses-dev
+	apt-install "libevent-$libevent_version" libevent-dev libncurses-dev bison
 	./configure
 	make
 	sudo make install
