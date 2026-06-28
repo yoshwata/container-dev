@@ -12,9 +12,9 @@ services:
     volumes: &vol
       # mount your work dir
       # for linux
-      # - /home/${USER}/git/:/home/${USER}/git
+      - /home/${USER}/git/:/home/${USER}/git
       # for mac
-      - /Users/${USER}/git/:/home/${USER}/git
+      #- /Users/${USER}/git/:/home/${USER}/git
       - ./.tmux.conf:/home/${USER}/.tmux.conf
       - ./.bash_history:/home/${USER}/.bash_history
       - ./.bash_profile:/home/${USER}/.bash_profile
