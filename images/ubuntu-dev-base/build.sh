@@ -37,6 +37,8 @@ else
 fi
 curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-linux-${COMPOSE_ARCH}" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
+mkdir -p /usr/local/lib/docker/cli-plugins
+ln -sf /usr/local/bin/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose
 
 # ssh
 apt-install openssh-client
@@ -181,4 +183,3 @@ git config --global alias.tree "log --all --graph --decorate=short --color --for
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
-
