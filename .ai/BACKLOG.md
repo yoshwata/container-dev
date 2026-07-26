@@ -20,10 +20,7 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 
 ### Todo 一覧
 
-| ID | 優先度 | 種別 | タイトル |
-| --- | --- | --- | --- |
-| AI-002 | P2 | feature | anyenv-devへのCodex CLI追加 |
-| AI-003 | P2 | feature | anyenv-devへのGitHub CLI追加 |
+なし
 
 ### Doing 一覧
 
@@ -33,41 +30,56 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 
 | ID | 優先度 | 種別 | タイトル |
 | --- | --- | --- | --- |
+| AI-003 | P2 | feature | anyenv-devへのGitHub CLI追加 |
+| AI-002 | P2 | feature | anyenv-devへのCodex CLI追加 |
 | AI-001 | P1 | chore | バックログ運用の初期化 |
 
 ## Todo
 
-### AI-002: anyenv-devへのCodex CLI追加
-
-- 優先度: P2
-- 種別: feature
-- 概要: `anyenv-dev` コンテナでCodex CLIを利用できるようにする
-- 背景: 現在の `anyenv-dev` イメージにはCodex CLIが含まれておらず、コンテナ内でCodexを使った開発作業ができない
-- 完了条件:
-  - `anyenv-dev` イメージにCodex CLIがインストールされている
-  - `anyenv-dev` コンテナ内で `codex --version` を実行し、バージョンを確認できる
-  - インストール方法と利用手順がドキュメントに記載されている
-- メモ:
-  - 対象: `images/anyenv-dev`
-
-### AI-003: anyenv-devへのGitHub CLI追加
-
-- 優先度: P2
-- 種別: feature
-- 概要: `anyenv-dev` コンテナでGitHub CLIを利用できるようにする
-- 背景: 現在の `anyenv-dev` イメージには `gh` コマンドがなく、コンテナ内でGitHubの操作ができない
-- 完了条件:
-  - `anyenv-dev` イメージにGitHub CLIがインストールされている
-  - `anyenv-dev` コンテナ内で `gh --version` を実行し、バージョンを確認できる
-  - インストール方法と利用手順がドキュメントに記載されている
-- メモ:
-  - 対象: `images/anyenv-dev`
+なし
 
 ## Doing
 
 なし
 
 ## Done
+
+### AI-003: anyenv-devへのGitHub CLI追加
+
+- 優先度: P2
+- 種別: feature
+- 概要: `anyenv-dev` コンテナでGitHub CLIを利用できるようにした
+- 背景: `anyenv-dev` イメージには `gh` コマンドがなく、コンテナ内でGitHubの操作ができなかった
+- 完了条件:
+  - `anyenv-dev` イメージにGitHub CLIがインストールされている
+  - `anyenv-dev` コンテナ内で `gh --version` を実行し、バージョンを確認できる
+  - インストール方法と利用手順がドキュメントに記載されている
+- 実装メモ:
+  - Ubuntuのパッケージから `gh` をインストール
+  - `images/anyenv-dev/readme.md` に認証、トークン利用、認証情報の永続化方法を記載
+  - `images/anyenv-dev/test/sh/test.sh` にバージョン確認を追加
+- 確認方法:
+  - `docker build -t container-dev-anyenv:test images/anyenv-dev`
+  - `docker run --rm container-dev-anyenv:test bash -lc 'gh --version'`
+
+### AI-002: anyenv-devへのCodex CLI追加
+
+- 優先度: P2
+- 種別: feature
+- 概要: `anyenv-dev` コンテナでCodex CLIを利用できるようにした
+- 背景: `anyenv-dev` イメージにはCodex CLIが含まれておらず、コンテナ内でCodexを使った開発作業ができなかった
+- 完了条件:
+  - `anyenv-dev` イメージにCodex CLIがインストールされている
+  - `anyenv-dev` コンテナ内で `codex --version` を実行し、バージョンを確認できる
+  - インストール方法と利用手順がドキュメントに記載されている
+- 実装メモ:
+  - nodenvで管理しているNode.jsへ `npm install --global @openai/codex` でインストール
+  - nodenvのshimをPATHへ明示し、非対話シェルからも `codex` を実行可能にした
+  - `images/anyenv-dev/readme.md` に認証、APIキー利用、認証情報の永続化方法を記載
+  - `images/anyenv-dev/test/sh/test.sh` にバージョン確認を追加
+- 確認方法:
+  - `docker build -t container-dev-anyenv:test images/anyenv-dev`
+  - `docker run --rm container-dev-anyenv:test bash -lc 'codex --version'`
 
 ### AI-001: バックログ運用の初期化
 
