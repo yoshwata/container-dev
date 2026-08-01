@@ -20,7 +20,9 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 
 ### Todo 一覧
 
-なし
+| ID | 優先度 | 種別 | タイトル |
+| --- | --- | --- | --- |
+| AI-004 | P1 | bug | Codex sandbox向けuser namespaceの有効化 |
 
 ### Doing 一覧
 
@@ -36,7 +38,26 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 
 ## Todo
 
-なし
+### AI-004: Codex sandbox向けuser namespaceの有効化
+
+- 優先度: P1
+- 種別: bug
+- 概要: `container-dev` 内でCodexがBubblewrapによるsandboxを起動できるようにする
+- 背景: Codexから通常のコマンドを実行すると `bwrap: No permissions to create a new namespace` で失敗し、読み取りを含むワークスペース内操作にも隔離外実行の承認が頻繁に必要になる。`user.max_user_namespaces = 63436` である一方、`unshare --user --map-root-user true` は `Operation not permitted` となるため、上位コンテナのseccompまたは同等の実行制限が原因と考えられる
+- 完了条件:
+  - `container-dev` 内で `unshare --user --map-root-user true` が成功する
+  - CodexからBubblewrap sandbox内で通常の読み取り・書き込みコマンドを実行できる
+  - namespace作成に必要な権限だけを許可し、不要に `--privileged` を常用しない
+  - Docker Composeおよび関連する起動方法へ必要な設定が反映されている
+  - 制約、セキュリティ上のトレードオフ、確認手順がREADMEへ記載されている
+- メモ:
+  - `kernel.unprivileged_userns_clone` と `kernel.apparmor_restrict_unprivileged_userns` はこの環境には存在しなかった
+  - `security_opt: [seccomp=unconfined]` で原因を切り分け、可能なら必要なシステムコールだけを許可するseccompプロファイルを採用する
+  - ホストまたは上位コンテナ側の制限である場合、コンテナ内部のsysctl変更だけでは解消しない
+- 確認方法:
+  - `cat /proc/sys/user/max_user_namespaces`
+  - `unshare --user --map-root-user true`
+  - Codexからsandbox内で `rg --files` などの読み取りコマンドを実行する
 
 ## Doing
 
