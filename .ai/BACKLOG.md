@@ -22,6 +22,7 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 
 | ID | 優先度 | 種別 | タイトル |
 | --- | --- | --- | --- |
+| AI-005 | P2 | feature | anyenv-devでnpmのmin-release-ageを初期設定 |
 | AI-004 | P1 | bug | Codex sandbox向けuser namespaceの有効化 |
 
 ### Doing 一覧
@@ -37,6 +38,25 @@ AI作業用の課題管理バックログです。実装メモ、調査結果、
 | AI-001 | P1 | chore | バックログ運用の初期化 |
 
 ## Todo
+
+### AI-005: anyenv-devでnpmのmin-release-ageを初期設定
+
+- 優先度: P2
+- 種別: feature
+- 概要: `anyenv-dev` コンテナで、npmパッケージ公開直後のバージョンをインストール対象から除外する `min-release-age` を最初から有効にする
+- 背景: npmパッケージのサプライチェーン攻撃対策として、公開直後のバージョンを自動的に取得するリスクを減らしたい。コンテナ作成後に利用者が個別設定しなくても既定で適用される状態にする
+- 完了条件:
+  - `anyenv-dev` イメージ内のnpmで `min-release-age` が既定値として設定されている
+  - 設定値と設定箇所が明示され、新規作成したコンテナと通常ユーザーのシェルで有効になる
+  - 利用者がプロジェクトまたはユーザー単位の設定で上書きできる
+  - 設定の目的、既定値、確認方法、必要に応じた変更・無効化方法が `images/anyenv-dev/readme.md` に記載されている
+  - イメージのテストで `npm config get min-release-age` の値を検証している
+- メモ:
+  - npmの対応バージョンを確認し、`anyenv-dev` で導入されるnpmとの互換性を担保する
+  - 既定の待機期間は実装時に決定し、Dockerfileや設定ファイル内で意図が分かるようにする
+- 確認方法:
+  - `docker build -t container-dev-anyenv:test images/anyenv-dev`
+  - `docker run --rm container-dev-anyenv:test bash -lc 'npm config get min-release-age'`
 
 ### AI-004: Codex sandbox向けuser namespaceの有効化
 
